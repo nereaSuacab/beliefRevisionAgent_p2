@@ -8,3 +8,12 @@ def load_princess_diana_beliefs(self):
         self.add("~R | ~E | ~M | D")  # (R ∧ E ∧ M) → D
         self.add("A | D")  # ¬A → D
         self.add("A | D")  # A ∨ D
+        
+
+belief_base_cnf = [
+    {"R"},
+    {"E"},
+    {"M"},
+    {"¬R", "¬E", "¬M", "D"},
+    {"A", "D"},  
+]
