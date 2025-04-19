@@ -2,8 +2,6 @@
 from sympy.logic.boolalg import to_cnf, Not
 from typing import List
 
-from .world import Worlds
-
 
 class Belief:
     cnf: str
@@ -34,31 +32,10 @@ class BeliefBase:
             new_bb.beliefBase[key] = Belief(belief.formula)
         return new_bb
 
-    # def add(self, sequence):
-    #     """Add a sequence to the belief base."""
-    #     belief = Belief(sequence, 0)
-    #     if self.is_valid(belief):
-    #         self.beliefBase[sequence] = belief
-
     def clear(self):
         """Clears the belief base."""
         self.beliefBase = {}
 
-    # def is_valid(self, belief):
-    #     """Check if new variables has been added, if yes, check if still within limit"""
-    #     if self.beliefBaseVariableLimit == -1:
-    #         return True
-    #     variablesInBelief = []
-    #     for char in belief.formula:
-    #         char_value = ord(char)
-    #         if char_value >= 65 and char_value <= 90 or char_value >= 97 and char_value <= 122:
-    #             if char not in variablesInBelief:is val
-    #                 variablesInBelief.append(char)
-    #     variablesInBase = self.variables_in_base()
-    #     variablesInBase += [var for var in variablesInBelief if var not in variablesInBase]
-    #     if len(variablesInBase) > self.beliefBaseVariableLimit:
-    #         return False
-    #     return True
 
     def variables_in_base(self) -> List[str]:
         """Lists the variables in the beliefbase"""
@@ -76,17 +53,6 @@ class BeliefBase:
         return str(to_cnf('&'.join(
             [str(belief.cnf) for belief in self.beliefBase.values()]), True))
 
-    def _create_worlds(self) -> Worlds:
-        worlds = Worlds()
-        worlds.create_worlds(self._collective_beliefs(),
-                             self.variables_in_base())
-        return worlds
-
-    def get_plausibility(self) -> int:
-        collective_beliefs = self._collective_beliefs()
-        for index, world in enumerate(self._create_worlds().worlds_list):
-            if world.world_data == collective_beliefs:
-                return index
 
     def display_belief(self) -> None:
         for belief in self.beliefBase.keys():
@@ -136,11 +102,8 @@ class BeliefBase:
         if len(possible_belief_bases) == 0:
             self.beliefBase.clear()
             return
-        best_plausibility_order = possible_belief_bases[0].get_plausibility()
         self.beliefBase = possible_belief_bases[0].beliefBase
-        for beliefBase in possible_belief_bases:
-            if best_plausibility_order > beliefBase.get_plausibility():
-                self.beliefBase = beliefBase.beliefBase
+
 
     def resolution(self, alpha: Belief) -> bool:
         """Resolution Algorithm for propositional logic.

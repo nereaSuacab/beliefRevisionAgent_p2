@@ -1,6 +1,6 @@
 """Class for defining the Agent"""
 from typing import List, Tuple
-from .beliefbase import BeliefBase
+from beliefbase import BeliefBase
 
 
 class Agent:
@@ -13,7 +13,8 @@ class Agent:
         if len(init_beliefs) > 0:
             for belief in init_beliefs:
                 self.belief_base.revise(belief)
-            print('Your belief base is:')
+            print("-------------------------------------------------------------------------------------------")
+            print('Hi! I am a conspiracy theorist regarding the death of Princess Diana — this is my belief base:')
             self.display()
 
     def display(self) -> None:
@@ -22,15 +23,18 @@ class Agent:
 
     def ask_action(self):
         """Ask the human for an action."""
+        print("----------------------------------------------------")
         print("Possible actions:")
-        print('add to add a new belief')
-        print('display to display the current belief base')
-        print('clear to clear the belief base')
-        print('quit stop the agent')
-        action = input("What do you want to do?")
+        print('"add" to add a new belief')
+        print('"display" to display the current belief base')
+        print('"clear" to clear the belief base')
+        print('"quit" stop the agent')
+        action = input("What do you want to do? ")
+        print("----------------------------------------------------")
+
         print()
         if action == 'add':
-            belief = input('Type your new belief')
+            belief = input('Type your new belief ')
             self.belief_base.revise(belief)
             self.display()
         elif action == 'display':
@@ -40,4 +44,4 @@ class Agent:
         elif action == 'quit':
             self.quit = True
         else:
-            print('Unrecognized action.')
+            print('Unrecognized action. ')
